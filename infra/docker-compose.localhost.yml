@@ -1,0 +1,22 @@
+services:
+  session-manager:
+    build: ./session-manager
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PROFILE_BASE:-/data/browser-profiles}:${PROFILE_BASE:-/data/browser-profiles}
+    environment:
+      - DOCKER_NETWORK=linkedintest-net
+      - SESSION_MANAGER_PORT=8080
+      - MAX_SESSIONS=${MAX_SESSIONS:-2}
+      - CHROME_IMAGE=browser-chrome
+      - PROFILE_BASE=${PROFILE_BASE:-/data/browser-profiles}
+      - EXTENSIONS_BASE=${EXTENSIONS_BASE:-/data/browser-extensions}
+    networks:
+      - linkedintest-net
+
+networks:
+  linkedintest-net:
+    driver: bridge

@@ -1,0 +1,12 @@
+{
+  "name": "browser-mcp-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": { "browser-mcp": "./server.js" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "playwright-core": "^1.52.0"
+  }
+}

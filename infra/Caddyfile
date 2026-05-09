@@ -1,0 +1,11 @@
+{$DOMAIN:localhost} {
+	# Basic auth on all routes
+	basicauth /* {
+		{$AUTH_USER:admin} {$AUTH_PASS_HASH}
+	}
+
+	# API + WebSocket → Session Manager
+	reverse_proxy /api/* session-manager:8080
+	reverse_proxy /ws/* session-manager:8080
+	reverse_proxy /view/* session-manager:8080
+}

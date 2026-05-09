@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "browser": {
+      "command": "ssh",
+      "args": [
+        "root@<vps-ip>",
+        "bash",
+        "/root/linkedintest/infra/connect-mcp.sh",
+        "linkedin"
+      ]
+    },
+    "crispy": {
+      "command": "npx",
+      "args": ["-y", "@crispy/mcp"],
+      "env": {
+        "CRISPY_API_KEY": "<your-crispy-key>"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+services:
+  session-manager:
+    build: ./session-manager
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PROFILE_BASE:-/data/browser-profiles}:${PROFILE_BASE:-/data/browser-profiles}
+    environment:
+      - DOCKER_NETWORK=root_default
+      - SESSION_MANAGER_PORT=8080
+      - MAX_SESSIONS=${MAX_SESSIONS:-2}
+      - CHROME_IMAGE=browser-chrome
+      - PROFILE_BASE=${PROFILE_BASE:-/data/browser-profiles}
+      - EXTENSIONS_BASE=${EXTENSIONS_BASE:-/data/browser-extensions}
+    labels:
+      - "traefik.enable=true"
+      # HTTP router (API + noVNC assets)
+      - "traefik.http.routers.browser.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.browser.entrypoints=web,websecure"
+      - "traefik.http.routers.browser.tls=true"
+      - "traefik.http.routers.browser.tls.certresolver=mytlschallenge"
+      - "traefik.http.routers.browser.middlewares=browser-auth@docker"
+      - "traefik.http.services.browser.loadbalancer.server.port=8080"
+      # Basic auth middleware
+      - "traefik.http.middlewares.browser-auth.basicauth.users=${AUTH_USER}:${AUTH_PASS_HASH}"
+    networks:
+      - root_default
+
+networks:
+  root_default:
+    external: true

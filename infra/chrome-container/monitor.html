@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#000}
+  #screen{width:100%;height:100%}
+</style>
+<script type="module">
+  import RFB from './core/rfb.js';
+  function qp(n,d){const m=document.location.href.match(new RegExp('[?&#]'+n+'=([^&#]*)'));return m?decodeURIComponent(m[1]):d}
+  const host=qp('host',location.hostname);
+  const port=qp('port',location.port);
+  const path=qp('path','websockify');
+  const proto=location.protocol==='https:'?'wss':'ws';
+  const url=proto+'://'+host+(port?':'+port:'')+'/'+path;
+  const rfb=new RFB(document.getElementById('screen'),url);
+  rfb.viewOnly=qp('view_only','false')==='true';
+  rfb.scaleViewport=true;
+  rfb.resizeSession=false;
+  rfb.clipViewport=false;
+</script>
+</head>
+<body><div id="screen"></div></body>
+</html>

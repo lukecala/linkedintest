@@ -1,0 +1,14 @@
+{
+  "name": "browser-session-manager",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dockerode": "^4.0.4",
+    "express": "^4.21.2",
+    "http-proxy": "^1.18.1"
+  }
+}
